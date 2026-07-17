@@ -41,3 +41,8 @@ jobs:
       - name: Terraform apply
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: terraform apply -auto-approve
+
+      - name: Deploy site files
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        working-directory: .
+        run: aws s3 sync . s3://project101-site-asalum1-2026 --exclude ".git/*" --exclude ".github/*" --exclude "terraform/*" --exclude ".gitignore"
